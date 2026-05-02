@@ -70,12 +70,17 @@ composer install
 Este comando lee el bloque `"autoload"` del `composer.json` y genera automáticamente la carpeta `vendor/` con todos los archivos internos
 necesarios para que PHP encuentre cada clase.
 
+<img width="1466" height="204" alt="Captura de pantalla 2026-05-02 014826" src="https://github.com/user-attachments/assets/5fb2a531-f22a-4c51-a156-d2820e3ec815" />
+
 #### ¿Por qué se crea la carpeta `vendor/`?
 
 `vendor/` es el directorio donde Composer almacena:
 
 1. **Las dependencias de terceros**
 2. **El autoloader generado** (`vendor/autoload.php`)
+
+<img width="307" height="412" alt="Captura de pantalla 2026-05-02 014854" src="https://github.com/user-attachments/assets/08ccf2f8-284c-43c7-a5c0-ff88a4d10bb1" />
+
 ---
 
 ### Paso 5 — Pruebas con mi archivo `Prueba.php`

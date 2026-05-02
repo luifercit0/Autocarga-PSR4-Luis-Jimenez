@@ -43,7 +43,7 @@ El namespace refleja exactamente la ruta de carpetas desde la raíz configurada.
 
 <img width="422" height="62" alt="image" src="https://github.com/user-attachments/assets/0e1ae57f-24a5-4329-8828-ee81120d9c44" />
 
-El resultado nos dará el mismo, pero nos realentiza el estar escribiendo require en cada clase para esperaer una impresión, mejor utilicemos autoload instalandolo en la terminal, así nos agilizaremos un poco más.
+Si hacemos una impresión sin el uso del composer el resultado nos dará el mismo, pero nos realentiza el estar escribiendo require en cada clase para esperaer una impresión, mejor utilicemos autoload instalandolo en la terminal, así nos agilizaremos un poco más.
 
 ---
 
@@ -67,8 +67,7 @@ Le dice a Composer dónde está cada clase según su namespace. App\ la busca en
 composer install
 ```
 
-Este comando lee el bloque `"autoload"` del `composer.json` y genera
-automáticamente la carpeta `vendor/` con todos los archivos internos
+Este comando lee el bloque `"autoload"` del `composer.json` y genera automáticamente la carpeta `vendor/` con todos los archivos internos
 necesarios para que PHP encuentre cada clase.
 
 #### ¿Por qué se crea la carpeta `vendor/`?
@@ -106,22 +105,13 @@ Demostrar que el composer.json está bien configurado si se llega clonar un repo
 ## Conclusiones Técnicas
 
 ### Mantenibilidad
-Agregar nuevas clases al proyecto no requiere modificar ningún archivo de
-configuración global. Basta con respetar la convención de carpetas y declarar
-el namespace correcto. El autoloader de Composer resuelve todo en tiempo de
-ejecución.
+Agregar nuevas clases al proyecto no requiere modificar ningún archivo de configuración global. Basta con respetar la convención de carpetas y declarar el namespace correcto. El autoloader de Composer resuelve todo en tiempo de ejecución.
 
 ### Eficiencia de Memoria — Lazy Loading
-Composer solo carga en memoria las clases que realmente se instancian durante
-una petición. En un proyecto con 200 clases donde una petición específica
-solo usa 15, las otras 185 nunca se cargan, reduciendo el consumo de RAM y
-mejorando el tiempo de respuesta del servidor.
+Composer solo carga en memoria las clases que realmente se instancian durante una petición. En un proyecto con 200 clases donde una petición específica solo usa 15, las otras 185 nunca se cargan, reduciendo el consumo de RAM y mejorando el tiempo de respuesta del servidor.
 
 ### Estandarización PSR-4
-Seguir PSR-4 garantiza una buena estructuración con el ecosistema PHP completo.
-Frameworks como Laravel sigueneste mismo estándar. Esto permite integrar 
-cualquier librería externa sin conflictos y facilita la incorporación de nuevos 
-desarrolladores al equipo.
+Seguir PSR-4 garantiza una buena estructuración con el ecosistema PHP completo. Frameworks como Laravel sigueneste mismo estándar. Esto permite integrar cualquier librería externa sin conflictos y facilita la incorporación de nuevos desarrolladores al equipo.
 
 ---
 

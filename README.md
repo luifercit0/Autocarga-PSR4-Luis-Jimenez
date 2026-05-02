@@ -1,12 +1,6 @@
-# 📦 Autocarga PSR-4 con Composer
+# Autocarga PSR-4 con Composer
 
-> **Desarrollo de Software VII** — Universidad Tecnológica  
-> Facultad de Ingeniería en Sistemas Computacionales  
-> Estándar aplicado: [PSR-4 Autoloader](https://www.php-fig.org/psr/psr-4/)
-
----
-
-## 📖 ¿Qué es este proyecto?
+## ¿Qué es este proyecto?
 
 Este proyecto demuestra la implementación del estándar **PSR-4** usando **Composer Autoload**
 para gestionar la carga automática de clases en PHP, eliminando por completo el uso de
@@ -14,26 +8,8 @@ para gestionar la carga automática de clases en PHP, eliminando por completo el
 
 ---
 
-## 🗂️ Estructura del Proyecto
-
-```
-Autocarga/
-│
-├── src/                          ← Código fuente del proyecto
-│   ├── App/
-│   │   └── User.php              → Namespace: App\User
-│   └── Database/
-│       └── Model/
-│           └── ProductModel.php  → Namespace: Database\Model\ProductModel
-│
-├── vendor/                       ← Generado por Composer (NO se versiona)
-│   └── autoload.php              → Autoloader PSR-4 listo para usar
-│
-├── composer.json                 ← Configuración del proyecto y mapeo PSR-4
-├── composer.lock                 ← Versiones exactas bloqueadas
-├── .gitignore                    ← Excluye vendor/
-└── Prueba.php                    ← Punto de entrada / demostración
-```
+## Estructura del Proyecto
+<img width="563" height="286" alt="image" src="https://github.com/user-attachments/assets/40ee0d9a-1b46-443f-bbca-d79ac830f01a" />
 
 ### Mapa Namespace → Carpeta Física (Regla PSR-4)
 

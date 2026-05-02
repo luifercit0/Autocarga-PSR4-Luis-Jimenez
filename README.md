@@ -1,62 +1,19 @@
-# Autocarga PSR-4 con Composer
+# Autocarga PSR-4 con Composer - Luis Jiménez
 
-## ¿Qué es este proyecto?
-
-Este proyecto demuestra la implementación del estándar **PSR-4** usando **Composer Autoload**
+Esta guía demuestra la implementación del estándar **PSR-4** usando **Composer Autoload**
 para gestionar la carga automática de clases en PHP, eliminando por completo el uso de
 `require` e `include` manuales.
 
----
+## Estructura del Proyecto con el estándar PSR-4
+Para el ejemplo propuesto, en base a la estructura PSR-4 creamos carpetas y subcarpetas que nos permitirán idividualizar e identificar secciones del código para trabajar. La función del autoload en este laboratorio es simple: en vez de estar escribiendo require para cada archivo PHP que necesites usar, Composer se encarga de encontrar y cargar las clases automáticamente cuando las necesitas.
 
-## Estructura del Proyecto
+El estandar PSR-4 define una forma automatizada de cargar clases en PHP mediante un mapeo entre namespaces y directorios del sistema de archivos.
+
 <img width="563" height="286" alt="image" src="https://github.com/user-attachments/assets/40ee0d9a-1b46-443f-bbca-d79ac830f01a" />
 
-### Mapa Namespace → Carpeta Física (Regla PSR-4)
-
-| Namespace Prefix | Carpeta física    | Ejemplo completo                             |
-|-----------------|-------------------|----------------------------------------------|
-| `App\`          | `src/App/`        | `App\User` → `src/App/User.php`              |
-| `Database\`     | `src/Database/`   | `Database\Model\ProductModel` → `src/Database/Model/ProductModel.php` |
-
-> **Regla clave PSR-4:** cada segmento del namespace después del prefijo raíz
-> debe corresponder a una subcarpeta. El nombre del archivo debe ser idéntico
-> al nombre de la clase, con extensión `.php`.
-
 ---
 
-## ⚙️ Guía de Instalación
-
-### Requisitos previos
-
-- PHP 8.0 o superior
-- [Composer](https://getcomposer.org/) instalado globalmente
-
-### Pasos para ejecutar
-
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/autocarga.git
-cd autocarga
-
-# 2. Generar el autoloader
-composer install
-# Si solo quieres regenerar el autoloader sin instalar paquetes nuevos:
-composer dump-autoload
-
-# 3. Ejecutar la demostración
-php Prueba.php
-```
-
-### Salida esperada
-
-```
-Dave
-123
-```
-
----
-
-## 🚶 Flujo de Trabajo — Paso a Paso
+## Flujo de Trabajo — Paso a Paso
 
 A continuación se documenta el proceso seguido para construir este proyecto
 desde cero, aplicando PSR-4.
@@ -66,10 +23,7 @@ desde cero, aplicando PSR-4.
 Se creó la carpeta raíz `Autocarga/` y dentro de ella la estructura de
 directorios que respeta la jerarquía de namespaces definida por PSR-4:
 
-```bash
-mkdir -p Autocarga/src/App
-mkdir -p Autocarga/src/Database/Model
-```
+<img width="247" height="233" alt="Captura de pantalla 2026-05-02 014603" src="https://github.com/user-attachments/assets/3991db15-e3d5-4cf4-9c3c-05221957ed58" />
 
 La lógica es directa: si la clase va a pertenecer al namespace `Database\Model`,
 debe vivir físicamente en la carpeta `src/Database/Model/`. PSR-4 exige que
@@ -79,36 +33,17 @@ esta correspondencia sea exacta, carácter por carácter.
 
 ### Paso 2 — Crear las clases PHP
 
-**`src/App/User.php`**
+<img width="430" height="256" alt="Captura de pantalla 2026-05-02 014620" src="https://github.com/user-attachments/assets/b7528782-f2ae-4f2d-9551-aa825aaea09d" />
 
-```php
-<?php
-namespace App;
+<img width="430" height="256" alt="Captura de pantalla 2026-05-02 014703" src="https://github.com/user-attachments/assets/0f3a1f43-e1f2-434d-9776-b355729b55eb" />
 
-class User {
-    public function getName(): string
-    {
-        return "Dave";
-    }
-}
-```
-
-**`src/Database/Model/ProductModel.php`**
-
-```php
-<?php
-namespace Database\Model;
-
-class ProductModel {
-    public function getId(): int
-    {
-        return 123;
-    }
-}
-```
 
 Cada archivo declara su `namespace` en la primera línea después de `<?php`.
 El namespace refleja exactamente la ruta de carpetas desde la raíz configurada.
+
+<img width="422" height="62" alt="image" src="https://github.com/user-attachments/assets/0e1ae57f-24a5-4329-8828-ee81120d9c44" />
+
+El resultado nos dará el mismo, pero nos realentiza el estar escribiendo require en cada clase para esperaer una impresión, mejor utilicemos autoload instalandolo en la terminal, así nos agilizaremos un poco más.
 
 ---
 
@@ -117,44 +52,19 @@ El namespace refleja exactamente la ruta de carpetas desde la raíz configurada.
 Se creó el archivo `composer.json` en la raíz del proyecto con el siguiente
 contenido:
 
-```json
-{
-    "name": "estudiante/autocarga-psr4",
-    "description": "Laboratorio de Autoload PSR-4 con Composer",
-    "require": {
-        "php": ">=8.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\":      "src/App/",
-            "Database\\": "src/Database/"
-        }
-    }
-}
-```
+<img width="488" height="294" alt="image" src="https://github.com/user-attachments/assets/9e22ecd2-8de1-45ef-ae07-f304dac067cb" />
 
-#### ¿Qué hace cada parte?
 
-| Sección | Función |
-|---------|---------|
-| `"name"` | Identificador del paquete en formato `vendor/proyecto` |
-| `"require"` | Declara las dependencias del proyecto (aquí solo PHP 8.0+) |
-| `"autoload"` | Le indica a Composer cómo resolver nombres de clases a archivos |
-| `"psr-4"` | Especifica el estándar de mapeo a utilizar |
-| `"App\\\\"` | Prefijo de namespace raíz → Composer buscará clases `App\*` en `src/App/` |
-| `"Database\\\\"` | Prefijo de namespace raíz → Composer buscará clases `Database\*` en `src/Database/` |
+#### ¿Qué hace este archivo específicamente?
 
-> **¿Por qué dos entradas en `psr-4`?**  
-> Porque el proyecto tiene dos jerarquías de namespaces independientes:
-> `App` (para lógica de aplicación) y `Database` (para acceso a datos).
-> Cada una necesita su propio mapeo hacia su carpeta física.
+Le dice a Composer dónde está cada clase según su namespace. App\ la busca en src/App/ y Database\ en src/Database/. Sin esto, tendrías que usar require para cada archivo manualmente. Así obtendremos laimpresión que queremos para este ejemplo.
 
 ---
 
-### Paso 4 — Ejecutar `composer dump-autoload`
+### Paso 4 — Ejecutar `composer install`
 
 ```bash
-composer dump-autoload
+composer install
 ```
 
 Este comando lee el bloque `"autoload"` del `composer.json` y genera
@@ -165,85 +75,35 @@ necesarios para que PHP encuentre cada clase.
 
 `vendor/` es el directorio donde Composer almacena:
 
-1. **Las dependencias de terceros** (librerías instaladas). En este proyecto
-   no hay ninguna, pero si agregáramos por ejemplo `"monolog/monolog"`,
-   se descargaría aquí.
-
-2. **El autoloader generado** (`vendor/autoload.php`): un archivo PHP que
-   registra en el motor de PHP una función que, cada vez que se usa una clase
-   desconocida, consulta los mapas PSR-4 definidos y carga el archivo correcto
-   automáticamente — sin que el programador escriba ningún `require`.
-
-> **Importante:** `vendor/` **no debe versionarse** en Git. Cada desarrollador
-> que clone el proyecto la regenera con `composer install`. Por eso existe el
-> `.gitignore` que la excluye.
-
+1. **Las dependencias de terceros**
+2. **El autoloader generado** (`vendor/autoload.php`)
 ---
 
-### Paso 5 — Escribir `Prueba.php`
+### Paso 5 — Pruebas con mi archivo `Prueba.php`
 
-```php
-<?php
+<img width="589" height="344" alt="Captura de pantalla 2026-05-02 014715" src="https://github.com/user-attachments/assets/97c525b7-5fcf-4311-8228-e1fc70d3839c" />
 
-require("vendor/autoload.php");  // ← única línea de carga
+<img width="426" height="109" alt="Captura de pantalla 2026-05-02 014727" src="https://github.com/user-attachments/assets/086eb79c-0d53-4bc1-a305-c09ebd74bf71" />
 
-use App\User;
-use Database\Model\ProductModel;
+Al ejecutarlo directamente, no nos saldrá la impresión pero al estructurarlo como se menció anteriormente se remplaza el require por el formato use. Despues de ejecutarlo con la estructura correcta si nos saldrá la impresión.
 
-$user = new User();
-echo $user->getName();   // imprime: Dave
-echo "\n";
+<img width="479" height="390" alt="Captura de pantalla 2026-05-02 015143" src="https://github.com/user-attachments/assets/3a6c4b38-38b4-460f-80d1-3a17dd8fb8e0" />
 
-$product = new ProductModel();
-echo $product->getId();  // imprime: 123
-echo "\n";
-```
+<img width="412" height="67" alt="Captura de pantalla 2026-05-02 015200" src="https://github.com/user-attachments/assets/5d1561dd-14d5-4fa4-ae49-4f66de96dd60" />
 
 #### ¿Por qué ya no hay `require` para cada clase?
 
-**Antes (sin Composer):**
-```php
-require("src/App/User.php");
-require("src/Database/Model/ProductModel.php");
-// ...y así por cada clase que agregues
-```
-
-**Ahora (con PSR-4):**
-```php
-require("vendor/autoload.php");  // una vez, para siempre
-```
-
-La sentencia `use` no carga el archivo — simplemente crea un **alias corto**
+Por que la sentencia `use` no carga el archivo, simplemente crea un **alias corto**
 dentro del archivo actual para no tener que escribir el namespace completo
-cada vez. La carga real ocurre en el momento en que se hace `new User()`,
-de forma transparente y automática. Esto se llama **Lazy Loading** (carga
-bajo demanda): la clase solo ocupa memoria cuando realmente se necesita.
+cada vez.
+
+### Paso 6 — Creación del archivo gitignore
+Este último antes de subirlo a mi repositorio excluimos la carpeta vendor, con que finalidad? 
+Demostrar que el composer.json está bien configurado si se llega clonar un repositorio como prueba, si el proyecto funciona correctamente después de regenerar el vendor/ desde cero
 
 ---
 
-## 🔍 ¿Por qué establecer rutas con namespaces en un proyecto estructurado?
-
-En proyectos reales con decenas o cientos de clases, los namespaces cumplen
-tres funciones críticas:
-
-**1. Evitan colisiones de nombres**  
-Puedes tener `App\Model\User` y `Database\Model\User` sin que PHP se confunda,
-porque el nombre completo (namespace + clase) es único.
-
-**2. Expresan la arquitectura del proyecto**  
-El namespace `Database\Model\ProductModel` comunica de inmediato que esa clase
-pertenece a la capa de base de datos, específicamente al patrón Model. Es
-documentación vivida dentro del código.
-
-**3. Permiten escalar sin tocar archivos existentes**  
-Para agregar una nueva clase `App\Services\PaymentService` basta con crear
-`src/App/Services/PaymentService.php` con el namespace correcto. Composer la
-encuentra automáticamente — no hay que modificar ningún archivo de configuración
-ni agregar ningún `require`.
-
----
-
-## 📊 Conclusiones Técnicas
+## Conclusiones Técnicas
 
 ### Mantenibilidad
 Agregar nuevas clases al proyecto no requiere modificar ningún archivo de
@@ -258,17 +118,19 @@ solo usa 15, las otras 185 nunca se cargan, reduciendo el consumo de RAM y
 mejorando el tiempo de respuesta del servidor.
 
 ### Estandarización PSR-4
-Seguir PSR-4 garantiza interoperabilidad con el ecosistema PHP completo.
-Frameworks como Laravel y Symfony, y miles de paquetes en Packagist, siguen
-este mismo estándar. Esto permite integrar cualquier librería externa sin
-conflictos y facilita la incorporación de nuevos desarrolladores al equipo.
+Seguir PSR-4 garantiza una buena estructuración con el ecosistema PHP completo.
+Frameworks como Laravel sigueneste mismo estándar. Esto permite integrar 
+cualquier librería externa sin conflictos y facilita la incorporación de nuevos 
+desarrolladores al equipo.
 
 ---
 
-## 📄 Rúbrica Cubierta
+## Información del Estudiante
 
-| Criterio | Evidencia |
-|----------|-----------|
-| E.1 Evidencias | README con estructura, flujo de trabajo y código documentado |
-| E.2 Ejecución | `php Prueba.php` imprime `Dave` y `123` sin errores |
-| E.3 Higiene del repo | `vendor/` excluida mediante `.gitignore` |
+| Campo | Información |
+|-------|-------------|
+| Nombre | Luis Jiménez |
+| Correo | [luis.jimenez6@utp.ac.pa](mailto:luis.jimenez6@utp.ac.pa) |
+| Curso | Desarrollo de Software 7 |
+| Fecha de Ejecución del Laboratorio | 01-05-26 |
+| Instructor del Laboratorio | Irina Fong |
